@@ -11,23 +11,11 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-server.use('/api/', authRouter);
-server.use('/api/users', restricted, checkDepartment("hr"), usersRouter);
+server.use('/api', authRouter);
+server.use('/api/users', restricted, usersRouter);
 
 server.get('/', (req, res) => {
   res.send("It's alive!");
 });
 
 module.exports = server;
- function checkDepartment(department){
-   return (req,res,next) => {
-     if(req.decodedToken &&
-       req.decodedToken &&
-        req.decodedToken.department.toLowerCase() === department
-         ){
-           next() 
-   } else{
-    res.status(403).json({you: "shall not pass!"})
-   }
- }
-}
